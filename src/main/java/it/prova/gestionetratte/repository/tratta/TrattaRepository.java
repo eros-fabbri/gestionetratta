@@ -2,6 +2,8 @@ package it.prova.gestionetratte.repository.tratta;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.gestionetratte.model.Tratta;
 

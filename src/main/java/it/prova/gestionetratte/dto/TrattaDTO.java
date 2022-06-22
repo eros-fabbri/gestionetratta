@@ -1,56 +1,37 @@
-package it.prova.gestionetratte.model;
+package it.prova.gestionetratte.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "tratta")
-public class Tratta {
+import it.prova.gestionetratte.model.Airbus;
+import it.prova.gestionetratte.model.StatoTratta;
+import it.prova.gestionetratte.model.Tratta;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+public class TrattaDTO {
+
+	@NotNull
 	private Long id;
-	
-	@Column(name = "codice")
+	@NotBlank
 	private String codice;
-	
-	@Column(name = "descrizione")
+	@NotBlank
 	private String descrizione;
-	
-	@Column(name="data")
+	@NotNull
 	private LocalDate data;
-	
-	@Column(name="oradecollo")
+	@NotNull
 	private LocalTime oraDecollo;
-	
-	@Column(name="oraatterraggio")
+	@NotNull
 	private LocalTime oraAtterraggio;
-	
-	@Column(name="stato")
-	@Enumerated(EnumType.STRING)
+	@NotNull
 	private StatoTratta stato;
-	
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "airbus_id", nullable = false)
+	@NotNull
 	private Airbus airbus;
-	
-	
-	
-	public Tratta(Long id, String codice, String descrizione, LocalDate data, LocalTime oraDecollo,
+
+	public TrattaDTO(Long id, String codice, String descrizione, LocalDate data, LocalTime oraDecollo,
 			LocalTime oraAtterraggio, StatoTratta stato, Airbus airbus) {
 		super();
 		this.id = id;
@@ -63,91 +44,86 @@ public class Tratta {
 		this.airbus = airbus;
 	}
 
-
-	public Tratta() {
-		
-	}
-
-
 	public Long getId() {
 		return id;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
 	public String getCodice() {
 		return codice;
 	}
-
 
 	public void setCodice(String codice) {
 		this.codice = codice;
 	}
 
-
 	public String getDescrizione() {
 		return descrizione;
 	}
-
 
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
 
-
 	public LocalDate getData() {
 		return data;
 	}
-
 
 	public void setData(LocalDate data) {
 		this.data = data;
 	}
 
-
 	public LocalTime getOraDecollo() {
 		return oraDecollo;
 	}
-
 
 	public void setOraDecollo(LocalTime oraDecollo) {
 		this.oraDecollo = oraDecollo;
 	}
 
-
 	public LocalTime getOraAtterraggio() {
 		return oraAtterraggio;
 	}
-
 
 	public void setOraAtterraggio(LocalTime oraAtterraggio) {
 		this.oraAtterraggio = oraAtterraggio;
 	}
 
-
 	public StatoTratta getStato() {
 		return stato;
 	}
-
 
 	public void setStato(StatoTratta stato) {
 		this.stato = stato;
 	}
 
-
 	public Airbus getAirbus() {
 		return airbus;
 	}
 
-
 	public void setAirbus(Airbus airbus) {
 		this.airbus = airbus;
 	}
-	
-	
-	
+
+	public static TrattaDTO createTrattaDTOFromModel(Tratta tratta) {
+		return new TrattaDTO(tratta.getId(), tratta.getCodice(), tratta.getDescrizione(), tratta.getData(),
+				tratta.getOraDecollo(), tratta.getOraAtterraggio(), tratta.getStato(), tratta.getAirbus());
+	}
+
+	public static List<TrattaDTO> createTrattaDTOListFromModelList(List<Tratta> listInput) {
+
+		return listInput.stream().map(trattaEntity -> {
+			TrattaDTO result = TrattaDTO.createTrattaDTOFromModel(trattaEntity);
+			return result;
+		}).collect(Collectors.toList());
+	}
+
+	public Tratta buildTrattaModel() {
+		
+		return new Tratta(id, codice, descrizione, data, oraDecollo, oraAtterraggio, stato, airbus);
+	}
+
 }

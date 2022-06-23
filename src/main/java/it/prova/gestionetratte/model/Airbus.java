@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "airbus")
 public class Airbus {
@@ -35,9 +37,29 @@ public class Airbus {
 	@Column(name = "numeropasseggeri")
 	private Integer numeroPasseggeri;
 	
+	@JsonIgnoreProperties(value = { "airbus" })
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "airbus")
 	private List<Tratta> tratte = new ArrayList<Tratta>(0);
 	
+	public Airbus(Long id, String codice, String descrizione, LocalDate dataInizioServizio, Integer numeroPasseggeri,
+			List<Tratta> tratte) {
+		super();
+		this.id = id;
+		this.codice = codice;
+		this.descrizione = descrizione;
+		this.dataInizioServizio = dataInizioServizio;
+		this.numeroPasseggeri = numeroPasseggeri;
+		this.tratte = tratte;
+	}
+
+	public Airbus(String codice, String descrizione, LocalDate dataInizioServizio, Integer numeroPasseggeri) {
+		super();
+		this.codice = codice;
+		this.descrizione = descrizione;
+		this.dataInizioServizio = dataInizioServizio;
+		this.numeroPasseggeri = numeroPasseggeri;
+	}
+
 	public Long getId() {
 		return id;
 	}

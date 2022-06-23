@@ -1,6 +1,9 @@
 package it.prova.gestionetratte.web.api;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
@@ -17,16 +20,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.gestionetratte.dto.AirbusDTO;
+import it.prova.gestionetratte.dto.AirbusSovrapposizioneDTO;
 import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.service.AirbusService;
 import it.prova.gestionetratte.web.exception.AirbusNotFoundException;
 import it.prova.gestionetratte.web.exception.IdNotNullForInsertException;
 
-
 @RestController
 @RequestMapping("api/airbus")
 public class AirbusController {
-	
+
 	@Autowired
 	private AirbusService airbusService;
 
@@ -44,7 +47,7 @@ public class AirbusController {
 		if (airbus == null)
 			throw new AirbusNotFoundException("Airbus not found con id: " + id);
 
-		return AirbusDTO.buildAirbusDTOFromModel(airbus, true);
+		return AirbusDTO.buildAirbusDTOFromModel(airbus);
 	}
 
 	// gli errori di validazione vengono mostrati con 400 Bad Request ma
@@ -52,12 +55,13 @@ public class AirbusController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public AirbusDTO createNew(@Valid @RequestBody AirbusDTO airbusInput) {
-		//se mi viene inviato un id jpa lo interpreta come update ed a me (producer) non sta bene
-		if(airbusInput.getId() != null)
+		// se mi viene inviato un id jpa lo interpreta come update ed a me (producer)
+		// non sta bene
+		if (airbusInput.getId() != null)
 			throw new IdNotNullForInsertException("Non è ammesso fornire un id per la creazione");
-		
+
 		Airbus airbusInserito = airbusService.inserisci(airbusInput.buildAirbusModel());
-		return AirbusDTO.buildAirbusDTOFromModel(airbusInserito, false);
+		return AirbusDTO.buildAirbusDTOFromModel(airbusInserito);
 	}
 
 	@PutMapping("/{id}")
@@ -69,7 +73,7 @@ public class AirbusController {
 
 		airbusInput.setId(id);
 		Airbus airbusAggiornato = airbusService.aggiorna(airbusInput.buildAirbusModel());
-		return AirbusDTO.buildAirbusDTOFromModel(airbusAggiornato, false);
+		return AirbusDTO.buildAirbusDTOFromModel(airbusAggiornato);
 	}
 
 	@DeleteMapping("/{id}")
@@ -87,5 +91,15 @@ public class AirbusController {
 	public List<AirbusDTO> search(@RequestBody AirbusDTO example) {
 		return AirbusDTO.createAirbusDTOListFromModelList(airbusService.findByExample(example.buildAirbusModel()),
 				false);
+	}
+
+	@GetMapping("/listaAirbusEvidenziandoSovrapposizioni ")
+	public List<AirbusSovrapposizioneDTO> listaAirbusEvidenziandoSovrapposizioni() {
+		return Stream.concat(AirbusSovrapposizioneDTO
+				.buildAirbusSovrappostoListFromAirbusList(airbusService.listConSovrapposizione(), true).stream(),
+				AirbusSovrapposizioneDTO
+						.buildAirbusSovrappostoListFromAirbusList(airbusService.listSenzaSovrapposizione(), false)
+						.stream())
+				.collect(Collectors.toList());
 	}
 }

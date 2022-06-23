@@ -79,9 +79,14 @@ public class TrattaController {
 		Tratta trattaAggiornato = trattaService.aggiorna(trattaInput.buildTrattaModel());
 		return TrattaDTO.createTrattaDTOFromModel(trattaAggiornato);
 	}
+	
 	@GetMapping("/concludiTratta")
 	public void concludiTratta(@PathVariable(value = "id", required = true) long id) {
 		trattaService.concludiTratte();
 	}
+	
+	
+	
+	
 	
 }

@@ -69,5 +69,19 @@ public class AirbusServiceImpl implements AirbusService {
 		
 		return airbusRepository.findAllEager();
 	}
+	
+	@Transactional
+	@Override
+	public List<Airbus> listConSovrapposizione(){
+		return airbusRepository.findAllConSovrapposizione();
+	}
+
+	@Override
+	public List<Airbus> listSenzaSovrapposizione() {
+		
+		return airbusRepository.findAllSenzaSovrapposizione();
+	}
+	
+	
 
 }

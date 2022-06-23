@@ -9,6 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.model.StatoTratta;
@@ -16,7 +18,7 @@ import it.prova.gestionetratte.model.Tratta;
 
 public class TrattaDTO {
 
-	@NotNull
+	
 	private Long id;
 	@NotBlank
 	private String codice;
@@ -32,7 +34,14 @@ public class TrattaDTO {
 	@NotNull
 	private StatoTratta stato;
 	@NotNull
+	@JsonIgnoreProperties(value = { "tratte" })
 	private Airbus airbus;
+	
+	@JsonProperty("airbus_id")
+	private void unpackNested(Integer airbus_id) {
+	    this.airbus = new Airbus();
+	    airbus.setId(airbus_id.longValue());
+	}
 
 	public TrattaDTO(Long id, String codice, String descrizione, LocalDate data, LocalTime oraDecollo,
 			LocalTime oraAtterraggio, StatoTratta stato, Airbus airbus) {

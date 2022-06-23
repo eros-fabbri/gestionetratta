@@ -21,7 +21,10 @@ public interface AirbusService {
 	List<Airbus> findByExample(Airbus airbus);
 
 	List<Airbus> listAllEager();
+
+	List<Airbus> listConSovrapposizione();
 	
+	List<Airbus> listSenzaSovrapposizione();
 	
 	
 

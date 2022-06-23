@@ -10,8 +10,6 @@ import javax.validation.constraints.NotNull;
 
 import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.model.Tratta;
-import it.prova.raccoltafilmspringrest.dto.FilmDTO;
-import it.prova.raccoltafilmspringrest.dto.AirbusDTO;
 
 public class AirbusDTO {
 
@@ -88,13 +86,12 @@ public class AirbusDTO {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	public static AirbusDTO buildAirbusDTOFromModel(Airbus airbusInput, boolean includiTratte) {
 		AirbusDTO result = new AirbusDTO(airbusInput.getId(), airbusInput.getCodice(), airbusInput.getDescrizione(),
 				airbusInput.getDataInizioServizio(), airbusInput.getNumeroPasseggeri());
 
 		if (includiTratte)
-			result.setTratte(TrattaDTO.createTrattaDTOListFromModelList((List<Tratta>) airbusInput.getTratte()));
+			result.setTratte(TrattaDTO.createTrattaDTOListFromModelList(airbusInput.getTratte()));
 		return result;
 
 	}
@@ -103,7 +100,7 @@ public class AirbusDTO {
 		return airbusList.stream().map(airbusEntity -> {
 			AirbusDTO result = AirbusDTO.buildAirbusDTOFromModel(airbusEntity,includiTratte);
 			if(includiTratte)
-				result.setTratte(TrattaDTO.createTrattaDTOListFromModelList(airbusEntity.getTratte(), false));
+				result.setTratte(TrattaDTO.createTrattaDTOListFromModelList(airbusEntity.getTratte()));
 			return result;
 		}).collect(Collectors.toList());
 	}

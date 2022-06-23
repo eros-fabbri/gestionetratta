@@ -17,4 +17,6 @@ public interface TrattaService {
 	Tratta inserisci(Tratta trattaInput);
 
 	void rimuovi(Tratta trattaInput);
+	
+	List<Tratta> findByExample(Tratta tratta);
 }

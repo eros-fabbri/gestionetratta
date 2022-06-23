@@ -17,6 +17,10 @@ public interface AirbusService {
 	Airbus inserisci(Airbus airbusInput);
 	
 	void rimuovi(Airbus airbusInput);
+
+	List<Airbus> findByExample(Airbus airbus);
+
+	List<Airbus> listAllEager();
 	
 	
 	

@@ -54,4 +54,16 @@ public class AirbusServiceImpl implements AirbusService {
 		airbusRepository.delete(input);
 	}
 
+	@Override
+	public List<Airbus> findByExample(Airbus airbus) {
+		
+		return airbusRepository.findByExample(airbus);
+	}
+
+	@Override
+	public List<Airbus> listAllEager() {
+		
+		return null;
+	}
+
 }

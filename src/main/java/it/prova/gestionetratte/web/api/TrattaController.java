@@ -55,7 +55,7 @@ public class TrattaController {
 
 	@PostMapping("/search")
 	public List<TrattaDTO> search(@RequestBody TrattaDTO example) {
-		return TrattaDTO.createTrattaDTOListFromModelList(trattaService.findByExample(example.buildTrattaModel()), false);
+		return TrattaDTO.createTrattaDTOListFromModelList(trattaService.findByExample(example.buildTrattaModel()));
 	}
 
 	@DeleteMapping("/{id}")

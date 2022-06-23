@@ -1,13 +1,17 @@
 package it.prova.gestionetratte.service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.gestionetratte.model.StatoTratta;
 import it.prova.gestionetratte.model.Tratta;
 import it.prova.gestionetratte.repository.tratta.TrattaRepository;
 
+@Service
 public class TrattaServiceImpl implements TrattaService {
 
 	@Autowired
@@ -51,6 +55,12 @@ public class TrattaServiceImpl implements TrattaService {
 	@Override
 	public List<Tratta> findByExample(Tratta tratta) {
 		return trattaRepository.findByExample(tratta);
+	}
+
+	@Override
+	@Transactional
+	public void concludiTratte() {
+		 trattaRepository.concludiTratte(LocalTime.now());
 	}
 
 }

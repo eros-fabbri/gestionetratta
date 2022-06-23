@@ -8,8 +8,9 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import it.prova.gestionetratte.model.Airbus;
-import it.prova.gestionetratte.model.Tratta;
 
 public class AirbusDTO {
 
@@ -19,6 +20,7 @@ public class AirbusDTO {
 	@NotBlank
 	private String descrizione;
 	@NotNull
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="CET")
 	private LocalDate dataInizioServizio;
 	@NotNull
 	private Integer numeroPasseggeri;

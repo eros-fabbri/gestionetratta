@@ -3,11 +3,13 @@ package it.prova.gestionetratte.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.repository.airbus.AirbusRepository;
 
+@Service
 public class AirbusServiceImpl implements AirbusService {
 
 	@Autowired
@@ -54,16 +56,18 @@ public class AirbusServiceImpl implements AirbusService {
 		airbusRepository.delete(input);
 	}
 
+	@Transactional
 	@Override
 	public List<Airbus> findByExample(Airbus airbus) {
 		
-		return airbusRepository.findByExample(airbus);
+		return airbusRepository.trovaPerExample(airbus);
 	}
 
+	@Transactional
 	@Override
 	public List<Airbus> listAllEager() {
 		
-		return null;
+		return airbusRepository.findAllEager();
 	}
 
 }

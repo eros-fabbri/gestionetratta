@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import it.prova.gestionetratte.model.Tratta;
 
-public class CustonmTrattaRepositoryImpl implements CustomTrattaRepository {
+public class CustomTrattaRepositoryImpl implements CustomTrattaRepository {
 
 	@PersistenceContext
 	EntityManager entityManager;

@@ -13,14 +13,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import it.prova.gestionetratte.model.Airbus;
 
-public class CustomAirbusRepositoryImp implements CustomAirbusRepository {
+public class CustomAirbusRepositoryImpl implements CustomAirbusRepository {
 
 	@PersistenceContext
 	EntityManager entityManager;
 	
 	
 	@Override
-	public List<Airbus> findByExample(Airbus example) {
+	public List<Airbus> trovaPerExample(Airbus example) {
 		
 		Map<String, Object> paramaterMap = new HashMap<String, Object>();
 		List<String> whereClauses = new ArrayList<String>();

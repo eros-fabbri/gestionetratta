@@ -18,9 +18,7 @@ import it.prova.gestionetratte.dto.TrattaDTO;
 import it.prova.gestionetratte.model.Tratta;
 import it.prova.gestionetratte.service.TrattaService;
 import it.prova.gestionetratte.web.exception.IdNotNullForInsertException;
-import it.prova.raccoltafilmspringrest.dto.FilmDTO;
-import it.prova.raccoltafilmspringrest.model.Film;
-import it.prova.raccoltafilmspringrest.web.api.exception.FilmNotFoundException;
+import it.prova.gestionetratte.web.exception.TrattaNotFoundException;
 
 @RestController
 @RequestMapping("api/tratta")
@@ -46,40 +44,40 @@ public class TrattaController {
 	}
 	
 	@GetMapping("/{id}")
-	public FilmDTO findById(@PathVariable(value = "id", required = true) long id) {
-		Film film = filmService.caricaSingoloElementoEager(id);
+	public TrattaDTO findById(@PathVariable(value = "id", required = true) long id) {
+		Tratta tratta = trattaService.caricaSingoloElementoEager(id);
 
-		if (film == null)
-			throw new FilmNotFoundException("Film not found con id: " + id);
+		if (tratta == null)
+			throw new TrattaNotFoundException("Tratta not found con id: " + id);
 
-		return FilmDTO.buildFilmDTOFromModel(film, true);
+		return TrattaDTO.createTrattaDTOFromModel(tratta);
 	}
 
 	@PostMapping("/search")
-	public List<FilmDTO> search(@RequestBody FilmDTO example) {
-		return FilmDTO.createFilmDTOListFromModelList(filmService.findByExample(example.buildFilmModel()), false);
+	public List<TrattaDTO> search(@RequestBody TrattaDTO example) {
+		return TrattaDTO.createTrattaDTOListFromModelList(trattaService.findByExample(example.buildTrattaModel()), false);
 	}
 
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable(required = true) Long id) {
-		Film film = filmService.caricaSingoloElemento(id);
+		Tratta tratta = trattaService.caricaSingoloElemento(id);
 
-		if (film == null)
-			throw new FilmNotFoundException("film not found con id: " + id);
+		if (tratta == null)
+			throw new TrattaNotFoundException("tratta not found con id: " + id);
 
-		filmService.rimuovi(film);
+		trattaService.rimuovi(tratta);
 	}
 
 	@PutMapping("/{id}")
-	public FilmDTO update(@Valid @RequestBody FilmDTO filmInput, @PathVariable(required = true) Long id) {
-		Film film = filmService.caricaSingoloElemento(id);
+	public TrattaDTO update(@Valid @RequestBody TrattaDTO trattaInput, @PathVariable(required = true) Long id) {
+		Tratta tratta = trattaService.caricaSingoloElemento(id);
 
-		if (film == null)
-			throw new FilmNotFoundException("film not found con id: " + id);
+		if (tratta == null)
+			throw new TrattaNotFoundException("tratta not found con id: " + id);
 
-		filmInput.setId(id);
-		Film filmAggiornato = filmService.aggiorna(filmInput.buildFilmModel());
-		return FilmDTO.buildFilmDTOFromModel(filmAggiornato, false);
+		trattaInput.setId(id);
+		Tratta trattaAggiornato = trattaService.aggiorna(trattaInput.buildTrattaModel());
+		return TrattaDTO.createTrattaDTOFromModel(trattaAggiornato);
 	}
 	
 }

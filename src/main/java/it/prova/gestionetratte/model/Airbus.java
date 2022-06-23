@@ -1,7 +1,8 @@
 package it.prova.gestionetratte.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -35,7 +36,7 @@ public class Airbus {
 	private Integer numeroPasseggeri;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "airbus")
-	private Set<Tratta> tratte = new HashSet<Tratta>(0);
+	private List<Tratta> tratte = new ArrayList<Tratta>(0);
 	
 	public Long getId() {
 		return id;
@@ -77,11 +78,11 @@ public class Airbus {
 		this.numeroPasseggeri = numeroPasseggeri;
 	}
 
-	public Set<Tratta> getTratte() {
+	public List<Tratta> getTratte() {
 		return tratte;
 	}
 
-	public void setTratte(Set<Tratta> tratte) {
+	public void setTratte(List<Tratta> tratte) {
 		this.tratte = tratte;
 	}
 
